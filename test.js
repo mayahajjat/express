@@ -30,12 +30,21 @@ app.get('/multiply/:num', function(req, res) {
 })
 app.get('/fib/:num', function(req, res) {
     const num = parseInt(req.params.num); // Parse the parameter to ensure it's a number
-    const fibSeq = [0, 1]; // Initialize Fibonacci sequence array
+
+    let fibPrev = 0; // Initialize the Fibonacci number at index 0
+    let fibCurr = 1; // Initialize the Fibonacci number at index 1
+
+    // Calculate the Fibonacci number at the specified index
     for (let i = 2; i <= num; i++) {
-        fibSeq[i] = fibSeq[i - 1] + fibSeq[i - 2]; // Calculate the next Fibonacci number
+        const fibNext = fibPrev + fibCurr; // Calculate the next Fibonacci number
+        fibPrev = fibCurr; // Update fibPrev to current Fibonacci number
+        fibCurr = fibNext; // Update fibCurr to next Fibonacci number
     }
-    res.json({ fibSeq: fibSeq.slice(0, num + 1) }); // Send JSON response with the Fibonacci sequence
+
+    res.json({ fibNum: fibCurr }); // Send JSON response with the Fibonacci number at the specified index
 });
+
+
 
 app.get('/cumulativesum/:num', function(req, res) {
     const num = parseInt(req.params.num); // Parse the parameter to ensure it's a number
